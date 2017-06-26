@@ -1,0 +1,54 @@
+Open On-Chip Debugger 0.10.0+dev-00161-g1725abc (2017-06-23-22:01)
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+Info : The selected transport took over low-level target control. The results might differ compared to plain JTAG/SWD
+adapter speed: 1000 kHz
+Info : Unable to match requested speed 1000 kHz, using 950 kHz
+Info : Unable to match requested speed 1000 kHz, using 950 kHz
+Info : clock speed 950 kHz
+Info : STLINK v2 JTAG v17 API v2 SWIM v4 VID 0x0483 PID 0x3748
+Info : using stlink api v2
+Info : Target voltage: 3.272871
+Error: init mode failed (unable to connect to the target)
+in procedure 'init' called at file "spark-ocd1.cfg", line 6
+in procedure 'ocd_bouncer'
+
+Open On-Chip Debugger 0.10.0+dev-00161-g1725abc (2017-06-23-22:01)
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+Info : The selected transport took over low-level target control. The results might differ compared to plain JTAG/SWD
+adapter speed: 1000 kHz
+Info : Unable to match requested speed 1000 kHz, using 950 kHz
+Info : Unable to match requested speed 1000 kHz, using 950 kHz
+Info : clock speed 950 kHz
+Info : STLINK v2 JTAG v17 API v2 SWIM v4 VID 0x0483 PID 0x3748
+Info : using stlink api v2
+Info : Target voltage: 3.272871
+Info : nrf51.cpu: hardware has 4 breakpoints, 2 watchpoints
+target halted due to debug-request, current mode: Thread 
+xPSR: 0xc1000000 pc: 0x000006d0 msp: 0x000007c0
+Info : nRF51822-CEAA(build code: E0) 256kB Flash
+target halted due to debug-request, current mode: Handler HardFault
+xPSR: 0xc1000003 pc: 0xfffffffe msp: 0xffffffd8
+target halted due to debug-request, current mode: Thread 
+xPSR: 0xc1000000 pc: 0xfffffffe msp: 0xfffffffc
+** Programming Started **
+auto erase enabled
+Info : Padding image section 0 with 2112 bytes
+Info : Padding image section 1 with 32 bytes
+Warn : using fast async flash loader. This is currently supported
+Warn : only with ST-Link and CMSIS-DAP. If you have issues, add
+Warn : "set WORKAREASIZE 0" before sourcing nrf51.cfg to disable it
+wrote 180224 bytes from file fw-files/combined.hex in 10.483151s (16.789 KiB/s)
+** Programming Finished **
+** Verify Started **
+target halted due to breakpoint, current mode: Thread 
+xPSR: 0x61000000 pc: 0x2000002e msp: 0xfffffffc
+target halted due to breakpoint, current mode: Thread 
+xPSR: 0x61000000 pc: 0x2000002e msp: 0xfffffffc
+target halted due to breakpoint, current mode: Thread 
+xPSR: 0x61000000 pc: 0x2000002e msp: 0xfffffffc
+verified 177536 bytes in 1.621255s (106.939 KiB/s)
+** Verified OK **

@@ -5,20 +5,7 @@ echo 'Running Alpine Labs Spark Loader. Last Updated Jun 26 2017 by SAH' ;
 echo 'Listening for Data Pin(s) to go from low to high, indicating a DUT is ready' ;
 echo '' ;
 
-import RPi.GPIO as GPIO
-import time
-
-GPIO.setmode(GPIO.BCM)
-
-GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-while True:
-    input_state = GPIO.input(18)
-    if input_state == False:
-        print('Button Pressed')
-        time.sleep(0.2)
-		fi
-done
+python3 /home/pi/spark_flash/alp-s-prog/spark-main.py
 
 while true;
 

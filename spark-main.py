@@ -52,12 +52,12 @@ while True:
 		openocd1 = subprocess.Popen(load_cmd1, stdout = debug1)
 		time.sleep(.2)
 	if pin2 == False and last2 == True:
-                print('Loading To Fixture 2')
-                subprocess.Popen(load_cmd2, stdout = debug2)
+		print('Loading To Fixture 2')
+		subprocess.Popen(load_cmd2, stdout = debug2)
 		time.sleep(.2)
 	if pin3 == False and last3 == True:
-                print('Loading To Fixture 3')
-                subprocess.Popen(load_cmd3, stdout = debug3)
+		print('Loading To Fixture 3')
+		subprocess.Popen(load_cmd3, stdout = debug3)
 		time.sleep(.2)
 	last1 = pin1
 	last2 = pin2

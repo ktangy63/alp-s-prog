@@ -1,1 +1,1 @@
-sudo openocd -f sparl_flash/alp-s-prog/spark-ocd.cfg
+sudo python3 /home/pi/spark_flash/alp-s-prog/spark-main.py

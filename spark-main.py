@@ -46,6 +46,7 @@ def isFixtureDone(fixtureNum):
 #	if rtn == NOT_DONE:
 #		print("Didn't find success or error, so probably still chugging")
 	return rtn
+last1 = last2 = last3 = True
 while True:
 	# Look for the GPIO pin to go high indicating that the DUT is powered and we're ready to rock.
 	pin1 = GPIO.input(18) #A1

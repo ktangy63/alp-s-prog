@@ -24,6 +24,21 @@ debug1 = open("debug1.log","w")
 debug2 = open("debug2.log","w")
 debug3 = open("debug3.log","w")
 
+# 
+# def ListenForErrors():
+# 	proc = Popen(monitorCommand.split(), stdout=PIPE, stderr=STDOUT, bufsize=1, universal_newlines=True)
+#
+# 	while proc.poll() is None:
+# 		print 'Reading output from monitor...'
+# 		sleep(1)
+# 		output = proc.stdout.read(1)
+# 		print "Read Line: ",output
+# 		if "Disconnect" in output:
+# 			return True
+#
+# 	print 'Process is not running'
+# 	return False
+
 def isFixtureDone(fixtureNum):
 	file = ""
 	rtn = NOT_DONE
@@ -43,8 +58,8 @@ def isFixtureDone(fixtureNum):
 			print("Process Succeeded!")
 			rtn =  GOOD
 			break
-#	if rtn == NOT_DONE:
-#		print("Didn't find success or error, so probably still chugging")
+	if rtn == NOT_DONE:
+		print("Didn't find success or error, so probably still chugging")
 	return rtn
 last1 = last2 = last3 = True
 while True:
@@ -56,6 +71,8 @@ while True:
 		print('Loading To Fixture 1')
 		time.sleep(.2)
 		openocd1 = subprocess.Popen(load_cmd1, stdout = debug1)
+		time.sleep(5)
+		isFixtureDone(1);
 	if pin2 == True and last2 == False:
 		print('Loading To Fixture 2')
 		time.sleep(.2)

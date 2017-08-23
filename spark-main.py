@@ -17,12 +17,12 @@ GPIO.setup(19, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(20, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 load_cmd1 = ("sudo openocd -f spark-ocd1.cfg").split()
-load_cmd2 = ("sudo openocd -f spark-ocd2.cfg").split()
-load_cmd3 = ("sudo openocd -f spark-ocd3.cfg").split()
+load_cmd2 = ("sudo openocd -f spark-ocd4.cfg").split()
+load_cmd3 = ("sudo openocd -f spark-ocd5.cfg").split()
 
-debug1 = open("debug1.log","w")
-debug2 = open("debug2.log","w")
-debug3 = open("debug3.log","w")
+debug1 = open("debug1.log","wb")
+debug2 = open("debug2.log","wb")
+debug3 = open("debug3.log","wb")
 
 # 
 # def ListenForErrors():
@@ -40,27 +40,30 @@ debug3 = open("debug3.log","w")
 # 	return False
 
 def isFixtureDone(fixtureNum):
-	file = ""
-	rtn = NOT_DONE
-	if fixtureNum == 1:
-		file = debug1
-	elif fixtureNum ==2:
-		file = debug2
-	else:
-		file = debug3
-	lines = debug1.readlines()
-	for i, line in enumerate(lines):
-		if "Error" in line:
-			print("got an error in debug file")
-			rtn= ERROR
-			break
-		elif "Verified OK" in line:
-			print("Process Succeeded!")
-			rtn =  GOOD
-			break
-	if rtn == NOT_DONE:
-		print("Didn't find success or error, so probably still chugging")
-	return rtn
+        _file = ""
+        rtn = NOT_DONE
+        if fixtureNum == 1 :
+                _file = "debug1.log"
+        elif fixtureNum ==2:
+                _file = "debug2.log"
+        else:
+                _file = "debug3.log"
+        with open ( _file) as f:
+                for line in f:
+                        print(line, end = " ")
+                        if "Error" in line:
+                                print("got an error in debug file")
+                                rtn= ERROR
+                                break
+                        elif "Verified OK" in line:
+                                print("Process Succeeded!")
+                                rtn =  GOOD
+                                break
+        if rtn == NOT_DONE:
+                print("Didn't find success or error, so probably still chugging")
+        return rtn
+
+running1 = running2 = running3 = False
 last1 = last2 = last3 = True
 while True:
 	# Look for the GPIO pin to go high indicating that the DUT is powered and we're ready to rock.
@@ -70,17 +73,24 @@ while True:
 	if pin1 == True and last1 == False:
 		print('Loading To Fixture 1')
 		time.sleep(.2)
+		running1= True;
 		openocd1 = subprocess.Popen(load_cmd1, stdout = debug1)
-		time.sleep(5)
+		time.sleep(1)
 		isFixtureDone(1);
 	if pin2 == True and last2 == False:
 		print('Loading To Fixture 2')
 		time.sleep(.2)
+		running2= True;
 		subprocess.Popen(load_cmd2, stdout = debug2)
+		time.sleep(1)
+		isFixtureDone(2);
 	if pin3 == True and last3 == False:
 		print('Loading To Fixture 3')
 		time.sleep(.2)
-		subprocess.Popen(load_cmd3, stdout = debug3)
+		running3= True;
+		subprocess.Popen(load_cmd3,stderr = debug3, stdout = debug3)
+		time.sleep(1)
+		isFixtureDone(3);
 	last1 = pin1
 	last2 = pin2
 	last3 = pin3

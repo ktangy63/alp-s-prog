@@ -23,6 +23,7 @@ load_cmd2 = ("sudo openocd -f spark-ocd2.cfg").split()
 load_cmd3 = ("sudo openocd -f spark-ocd3.cfg").split()
 load_cmd4 = ("sudo openocd -f spark-ocd4.cfg").split()
 load_cmd5 = ("sudo openocd -f spark-ocd5.cfg").split()
+reboot_cmd = ("sudo reboot").split()
 
 global debug1
 global debug2
@@ -113,7 +114,10 @@ def isFixtureDone(fixtureNum):
 	with open ( parse_file) as f:
 		for line in f:
 			print(line, end = "/")
-			if "Error" in line:
+			if "libusb_get_string_descriptor_ascii() failed" in line :
+                                print("********** THIS IS REALLY BAD ERROR, need to reboot!!!")
+                                subprocess.Popen(reboot_cmd)
+			elif "Error" in line:
 				print("****got an error in debug file")
 				rtn= ERROR
 				

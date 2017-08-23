@@ -1,1 +1,2 @@
-sudo python3 /home/pi/spark_flash/alp-s-prog/spark-main.py
+cd /home/pi/spark_flash/alp-s-prog
+sudo python3 spark-main.py

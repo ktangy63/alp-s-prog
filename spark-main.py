@@ -7,7 +7,7 @@ GOOD = 1
 NOT_DONE = 2
 
 print('Starting up spark-main')
-print('V1.0 Aug 14')
+print('V2.0 Aug 24')
 
 GPIO.setmode(GPIO.BCM)
 
@@ -58,10 +58,10 @@ def programFixture(fixtureNum, numTries):
 		debug3 = open("debug3.log","wb")
 		subprocess.Popen(load_cmd3, stderr = debug3, stdout = debug3)
 
-	time.sleep(4)
+	time.sleep(2)
 	result = isFixtureDone(fixtureNum)
 	if numTries == 0:
-                print("**************** We've blown our load tring to program this thing :(")
+		print("********** We've blown our load tring to program this thing :(")
 	elif result == ERROR:
 		numTries = numTries - 1
 		programFixture(fixtureNum , numTries)
@@ -119,14 +119,14 @@ while True:
 	pin2 = GPIO.input(19) #A2
 	pin3 = GPIO.input(20) #A3
 	if pin1 == True and last1 == False:
-				time.sleep(1)
-				programFixture(1, default_num_tries)
+		time.sleep(1)
+		programFixture(1, default_num_tries)
 	if pin2 == True and last2 == False:
-				time.sleep(1)
-				programFixture(2, default_num_tries)
+		time.sleep(1)
+		programFixture(2, default_num_tries)
 	if pin3 == True and last3 == False:
-				time.sleep(1)
-				programFixture(3, default_num_tries)
+		time.sleep(1)
+		programFixture(3, default_num_tries)
 	last1 = pin1
 	last2 = pin2
 	last3 = pin3

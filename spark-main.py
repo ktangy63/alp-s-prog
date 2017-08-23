@@ -15,14 +15,20 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(19, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(20, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(21, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 load_cmd1 = ("sudo openocd -f spark-ocd1.cfg").split()
-load_cmd2 = ("sudo openocd -f spark-ocd4.cfg").split()
-load_cmd3 = ("sudo openocd -f spark-ocd5.cfg").split()
+load_cmd2 = ("sudo openocd -f spark-ocd2.cfg").split()
+load_cmd3 = ("sudo openocd -f spark-ocd3.cfg").split()
+load_cmd4 = ("sudo openocd -f spark-ocd4.cfg").split()
+load_cmd5 = ("sudo openocd -f spark-ocd5.cfg").split()
 
 global debug1
 global debug2
 global debug3
+global debug4
+global debug5
 # 
 # def ListenForErrors():
 # 	proc = Popen(monitorCommand.split(), stdout=PIPE, stderr=STDOUT, bufsize=1, universal_newlines=True)
@@ -42,6 +48,8 @@ def programFixture(fixtureNum, numTries):
 	global debug1
 	global debug2
 	global debug3
+	global debug4
+	global debug5
 	if fixtureNum == 1:
 		print('Loading To Fixture 1')
 		debug1.close()
@@ -57,6 +65,16 @@ def programFixture(fixtureNum, numTries):
 		debug3.close()
 		debug3 = open("debug3.log","wb")
 		subprocess.Popen(load_cmd3, stderr = debug3, stdout = debug3)
+	if fixtureNum == 4 :
+		print('Loading To Fixture 4')
+		debug4.close()
+		debug4 = open("debug4.log","wb")
+		subprocess.Popen(load_cmd4, stderr = debug4, stdout = debug4)
+	if fixtureNum == 5 :
+		print('Loading To Fixture 5')
+		debug5.close()
+		debug5 = open("debug5.log","wb")
+		subprocess.Popen(load_cmd5, stderr = debug5, stdout = debug5)
 
 	time.sleep(2)
 	result = isFixtureDone(fixtureNum)
@@ -75,19 +93,27 @@ def isFixtureDone(fixtureNum):
 	global debug1
 	global debug2
 	global debug3
+	global debug4
+	global debug5
 	if fixtureNum == 1 :
 		parse_file = "debug1.log"
 		file_obj = debug1
 	elif fixtureNum ==2:
 		parse_file = "debug2.log"
 		file_obj = debug2
-	else:
+	elif fixtureNum ==3:
 		parse_file = "debug3.log"
 		file_obj = debug3
+	elif fixtureNum ==4:
+		parse_file = "debug4.log"
+		file_obj = debug4
+	else:
+		parse_file = "debug5.log"
+		file_obj = debug5
 	with open ( parse_file) as f:
 		for line in f:
 			print(line, end = "/")
-			if "Error: init mode failed" in line:
+			if "Error" in line:
 				print("****got an error in debug file")
 				rtn= ERROR
 				
@@ -103,12 +129,15 @@ def initLogs():
 	global debug1
 	global debug2
 	global debug3
+	global debug4
+	global debug5
 	debug1 = open("debug1.log","wb")
 	debug2 = open("debug2.log","wb")
 	debug3 = open("debug3.log","wb")
+	debug4 = open("debug4.log","wb")
+	debug5 = open("debug5.log","wb")
 
-running1 = running2 = running3 = False
-last1 = last2 = last3 = True
+last1 = last2 = last3 = last4 = last5 = True
 default_num_tries = 4
 initLogs()
 
@@ -118,6 +147,8 @@ while True:
 	pin1 = GPIO.input(18) #A1
 	pin2 = GPIO.input(19) #A2
 	pin3 = GPIO.input(20) #A3
+	pin4 = GPIO.input(21) #A4
+	pin5 = GPIO.input(26) #A5
 	if pin1 == True and last1 == False:
 		time.sleep(1)
 		programFixture(1, default_num_tries)
@@ -127,6 +158,14 @@ while True:
 	if pin3 == True and last3 == False:
 		time.sleep(1)
 		programFixture(3, default_num_tries)
+	if pin4 == True and last4 == False:
+		time.sleep(1)
+		programFixture(4, default_num_tries)
+	if pin5 == True and last5 == False:
+		time.sleep(1)
+		programFixture(5, default_num_tries)
 	last1 = pin1
 	last2 = pin2
 	last3 = pin3
+	last4 = pin4
+	last5 = pin5
